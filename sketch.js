@@ -4,6 +4,8 @@ function setup() {
 
 function draw() {
     background(255);
-    fill(51)
+    stroke(51)
     circle(30, 30, 20)
+
+    drawPolygon()
 }
