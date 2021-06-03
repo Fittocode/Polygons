@@ -9,14 +9,8 @@ function setup() {
 
 function draw() {
     background(255)
-    arr
     p = new polyVertex(x, y)
     p.show()
 }
 
-function mouseClicked() {
-    x = mouseX
-    y = mouseY
-    addPolyVertex()
-    console.log(arr)
-}
+
