@@ -1,23 +1,20 @@
-
 var vArr = []
-var fPolygons = []
 let count = 0
 let num = 3
-let triangle = [3];
+let triNumArr = [3];
 
 function addPolygons() {
-    vArr.push(new vertex1(mouseX, mouseY))
+    vArr.push(new polygon(mouseX, mouseY))
 }
 
 function mouseClicked() {
     count++
     num += 4
-    triangle.push(num)
+    triNumArr.push(num)
     addPolygons()
 }
 
-
-function vertex1(x, y) {
+function polygon(x, y) {
     this.x1 = x
     this.y1 = y
     this.height = 7
@@ -29,6 +26,7 @@ function vertex1(x, y) {
             // vertex rect
             fill(0)
             rect(vArr[i].x1, vArr[i].y1, 7, 7)
+
             // guiding line
             if (count % 4 != 0) {
                 line((vArr[vArr.length - 1].x1 + this.center), (vArr[vArr.length - 1].y1 + this.center), mouseX, mouseY);
@@ -45,22 +43,12 @@ function vertex1(x, y) {
                 text(nfc(d / 25, 1 % 1), 0, -5);
                 pop();
             }
-
-            // condition for completed polygon
-
-            // connecting lines - max 5 for pentagon
         }
 
         for (i = 0, j = 1; i < vArr.length; i++, j++) {
             if (count > (i + 1)) {
-                if (count % 4 === 0) {
-                    if (vArr[i].x1 > vArr[i].x1 && vArr[i].x1 < (vArr[i].x1 + 10)) {
-                        break
-                    }
-                }
-                // condition to reset array and count after closing polygon or 5 sides (6 vertices) 
-
-                if (triangle.indexOf(i) == -1) {
+                // condition to not draw lines between triangles
+                if (triNumArr.indexOf(i) == -1) {
                     line((vArr[i].x1 + this.center), (vArr[i].y1 + this.center), (vArr[j].x1 + this.center), (vArr[j].y1 + this.center))
                 }
             }
@@ -68,4 +56,3 @@ function vertex1(x, y) {
 
     }
 }
-
