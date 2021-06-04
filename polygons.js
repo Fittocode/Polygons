@@ -1,26 +1,23 @@
 
 var vArr = []
 var fPolygons = []
-let x2 = 200;
-let y2 = 200;
-let vCount = 0
-let lCount = 0
-let pCount = 0
+let count = 0
+let num = 3
+let triangle = [3];
 
 function addPolygons() {
-    vArr.push(new polygon(mouseX, mouseY))
+    vArr.push(new vertex1(mouseX, mouseY))
 }
 
 function mouseClicked() {
-    vCount++
-    lCount++
-    console.log(lCount)
+    count++
+    num += 4
+    triangle.push(num)
     addPolygons()
-    console.log(fPolygons)
 }
 
 
-function polygon(x, y) {
+function vertex1(x, y) {
     this.x1 = x
     this.y1 = y
     this.height = 7
@@ -33,39 +30,42 @@ function polygon(x, y) {
             fill(0)
             rect(vArr[i].x1, vArr[i].y1, 7, 7)
             // guiding line
-            line((vArr[vArr.length - 1].x1 + this.center), (vArr[vArr.length - 1].y1 + this.center), mouseX, mouseY);
+            if (count % 4 != 0) {
+                line((vArr[vArr.length - 1].x1 + this.center), (vArr[vArr.length - 1].y1 + this.center), mouseX, mouseY);
+                xt1 = vArr[vArr.length - 1].x1
+                yt1 = vArr[vArr.length - 1].y1
+                xt2 = mouseX
+                yt2 = mouseY
 
-            // variables for text
-            xt1 = vArr[vArr.length - 1].x1
-            yt1 = vArr[vArr.length - 1].y1
-            xt2 = mouseX
-            yt2 = mouseY
-
-            // position along line where text appears 
-            let d = dist(xt1, yt1, xt2, yt2);
-
-            // text 
-            push();
-            translate((xt1 + xt2) / 2, (yt1 + yt2) / 2);
-            text(nfc(d / 25, 1 % 1), 0, -5);
-            pop();
+                // position along line where text appears 
+                let d = dist(xt1, yt1, xt2, yt2);
+                // text 
+                push();
+                translate((xt1 + xt2) / 2, (yt1 + yt2) / 2);
+                text(nfc(d / 25, 1 % 1), 0, -5);
+                pop();
+            }
 
             // condition for completed polygon
-            if (vArr.length >= 3) {
-                if (vArr[i].x1 > (vArr[0].x1) && vArr[i].x1 < (vArr[0].x1 + 8)) {
-                    vCount = 0
-                }
-            }
+
+            // connecting lines - max 5 for pentagon
         }
-        // connecting lines - max 5 for pentagon
-        for (let i = 0; i < vArr.length; i++) {
-            if (lCount > (i + 1)) {
-                if (vArr[i].x1 > vArr[0].x1 && vArr[i].x1 < (vArr[0].x1 + 10)) {
-                    continue;
+
+        for (i = 0, j = 1; i < vArr.length; i++, j++) {
+            if (count > (i + 1)) {
+                if (count % 4 === 0) {
+                    if (vArr[i].x1 > vArr[i].x1 && vArr[i].x1 < (vArr[i].x1 + 10)) {
+                        break
+                    }
                 }
                 // condition to reset array and count after closing polygon or 5 sides (6 vertices) 
-                line((vArr[i].x1 + this.center), (vArr[i].y1 + this.center), (vArr[i + 1].x1 + this.center), (vArr[i + 1].y1 + this.center))
+
+                if (triangle.indexOf(i) == -1) {
+                    line((vArr[i].x1 + this.center), (vArr[i].y1 + this.center), (vArr[j].x1 + this.center), (vArr[j].y1 + this.center))
+                }
             }
         }
+
     }
 }
+
