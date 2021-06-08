@@ -9,7 +9,7 @@ function setup() {
 function draw() {
     background(255)
     p = new polygon()
-    p.constructPolygons()
+    p.drawPolygon()
 
 }
 
