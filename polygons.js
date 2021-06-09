@@ -2,32 +2,28 @@ let vArr = []
 let tArr = []
 let count = 0
 let origin = 0
-let triNum = 3
-let triColor = 150
-let lineColor = 150
-let triNumArr = [3];
 
 function pushVertex() {
     // add vertex coordinates to array for lines to work off of
-    vArr.push(new polygon(mouseX, mouseY))
+    vArr.push(new polygonBlueprint(mouseX, mouseY))
 }
 
 function mouseClicked() {
     count++
-    triNum += 4
-    triNumArr.push(triNum)
     pushVertex()
     closeTriangle()
+    if (closeTriangle()) {
+        count = 0
+        vArr.length = 0
+    }
 }
 
 function closeTriangle() {
     // push triangle coordinates to new triangle array when triangle path is closed (3rd click is within 1st click box)
-    for (let i = 0, j = 1, k = 2; i < vArr.length; i++, j++, k++) {
+    for (let i = 0; i < vArr.length; i++) {
         if (i > 2) {
-            if (vArr[i].x > vArr[origin].x - 7 && vArr[i].x < vArr[origin].x + 10 && vArr[i].y > vArr[origin].y - 7 && vArr[i].y < vArr[origin].y + 7) {
+            if (vArr[i].x > vArr[0].x - 7 && vArr[i].x < vArr[0].x + 10 && vArr[i].y > vArr[0].y - 7 && vArr[i].y < vArr[0].y + 7) {
                 console.log('it is a triangle!')
-                triColor = 0
-                lineColor = 0
                 tArr.push({
                     v0: {
                         x: vArr[0].x,
@@ -42,23 +38,30 @@ function closeTriangle() {
                         y: vArr[2].y
                     },
                 })
-                console.log(tArr)
-                origin += 3
+                vArr.length = 0
+                count = 0
+                console.log(vArr)
             }
             else {
-                vArr.length = 0
-                tArr.length = 0
+                console.log('oops')
             }
         }
     }
 }
 
-function polygon(x, y) {
+function drawTriangle() {
+    for (i = 0; i < tArr.length; i++) {
+        fill(color('hsla(160, 100%, 50%, 0.2)'))
+        triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
+    }
+}
+
+function polygonBlueprint(x, y) {
     // vertex coordinates pushed to arr in mouseClicked()
     this.x = x
     this.y = y
 
-    this.drawPolygon = function () {
+    this.drawBlueprint = function () {
         for (let i = 0; i < vArr.length; i++) {
             // draw vertex rect
             if (i !== 3) {
@@ -82,23 +85,18 @@ function polygon(x, y) {
                 text(nfc(d / 25, 1 % 1), 0, -5);
                 pop();
             }
-            // draw triangle if closedTriangle function has been called at least once (aka triangle array has >= 1 item)
-            if (tArr.length > 0) {
-                fill(color('hsla(160, 100%, 50%, 0.1)'))
-                triangle(tArr[0].v0.x + 3.5, tArr[0].v0.y + 3.5, tArr[0].v1.x, tArr[0].v1.y + 3.5, tArr[0].v2.x + 3.5, tArr[0].v2.y + 3.5)
-            }
         }
         // guiding line sticks 
         for (i = 0, j = 1; i < vArr.length; i++, j++) {
             if (count > (i + 1)) {
                 // condition to draw lines between triangles, otherwise skip to next triangle
-                if (triNumArr.indexOf(i) == -1 && i !== 2) {
+                if (i < 4) {
                     line((vArr[i].x + 3.5), (vArr[i].y + 3.5), (vArr[j].x + 3.5), (vArr[j].y + 3.5))
                 }
-                if (i === 2) {
-                    count = 0
-                }
             }
+            if (i === 4) [
+                vArr.length = 0
+            ]
         }
     }
 }
