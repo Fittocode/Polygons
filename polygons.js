@@ -51,8 +51,26 @@ function closeTriangle() {
 
 function drawTriangle() {
     for (i = 0; i < tArr.length; i++) {
-        fill(color('hsla(160, 100%, 50%, 0.2)'))
-        triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
+        console.log(tArr[i])
+        let d1 = Math.floor(dist(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y) / 25)
+        let d2 = Math.floor(dist(tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y) / 25)
+        let d3 = Math.floor(dist(tArr[i].v2.x, tArr[i].v2.y, tArr[i].v0.x, tArr[i].v0.y) / 25)
+        if (d1 === d2 && d2 === d3) {
+            fill(color('hsla(60, 100%, 50%, 0.2)'))
+            triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
+        } else {
+            fill(color('hsla(160, 100%, 50%, 0.2)'))
+            triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
+        }
+        console.log(Math.floor(dist(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y) / 25))
+        console.log(Math.floor(dist(tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y) / 25))
+        console.log(Math.floor(dist(tArr[i].v2.x, tArr[i].v2.y, tArr[i].v0.x, tArr[i].v0.y) / 25))
+    }
+}
+
+function checkEquilateral() {
+    if (dist(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y) === dist(tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y) === dist(tArr[i].v2.x, tArr[i].v2.y, tArr[i].v0.x, tArr[i].v0.y)) {
+        return true
     }
 }
 
