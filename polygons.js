@@ -9,6 +9,7 @@ function pushVertex() {
 }
 
 function mouseClicked() {
+    console.log(vArr)
     count++
     pushVertex()
     closeTriangle()
@@ -43,7 +44,9 @@ function closeTriangle() {
                 console.log(vArr)
             }
             else {
-                console.log('oops')
+                vArr.length = 0
+                count = 0
+                console.log(vArr)
             }
         }
     }
@@ -51,26 +54,23 @@ function closeTriangle() {
 
 function drawTriangle() {
     for (i = 0; i < tArr.length; i++) {
-        console.log(tArr[i])
-        let d1 = Math.floor(dist(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y) / 25)
-        let d2 = Math.floor(dist(tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y) / 25)
-        let d3 = Math.floor(dist(tArr[i].v2.x, tArr[i].v2.y, tArr[i].v0.x, tArr[i].v0.y) / 25)
+        // side lengths
+        let d1 = Math.floor(dist(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y) / 20)
+        let d2 = Math.floor(dist(tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y) / 20)
+        let d3 = Math.floor(dist(tArr[i].v2.x, tArr[i].v2.y, tArr[i].v0.x, tArr[i].v0.y) / 20)
+        // check if equilateral 
         if (d1 === d2 && d2 === d3) {
             fill(color('hsla(60, 100%, 50%, 0.2)'))
             triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
-        } else {
+            // check if isosceles
+        } else if (d1 === d2 || d1 === d3 || d2 === d3) {
             fill(color('hsla(160, 100%, 50%, 0.2)'))
             triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
+            // else scalene
+        } else {
+            fill(color('hsla(200, 100%, 50%, 0.2)'))
+            triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
         }
-        console.log(Math.floor(dist(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y) / 25))
-        console.log(Math.floor(dist(tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y) / 25))
-        console.log(Math.floor(dist(tArr[i].v2.x, tArr[i].v2.y, tArr[i].v0.x, tArr[i].v0.y) / 25))
-    }
-}
-
-function checkEquilateral() {
-    if (dist(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y) === dist(tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y) === dist(tArr[i].v2.x, tArr[i].v2.y, tArr[i].v0.x, tArr[i].v0.y)) {
-        return true
     }
 }
 
@@ -100,7 +100,7 @@ function polygonBlueprint(x, y) {
                 // draw text 
                 push();
                 translate((xt1 + xt2) / 2, (yt1 + yt2) / 2);
-                text(nfc(d / 25, 1 % 1), 0, -5);
+                text(nfc(d / 20, 1 % 1), 0, -5);
                 pop();
             }
         }
