@@ -1,7 +1,8 @@
-let numBalls = 5;
+let numBalls = 55;
 let spring = 0.05;
 let gravity = 0.002;
 let friction = -0.9;
+let total = 0
 
 class Ball {
     constructor(xin, yin, din, idin, oin) {
@@ -56,10 +57,67 @@ class Ball {
             this.y = this.diameter / 2;
             this.vy *= friction;
         }
+
     }
+
+    isInsideTriangle() {
+        if (tArr.length > 0) {
+            for (i = 0; i < tArr.length; i++) {
+
+                let p1 = tArr[i].v0
+                let p2 = tArr[i].v1
+                let p3 = tArr[i].v2
+                let p = { x: this.x, y: this.y }
+
+                let A = Math.abs((p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y)) / 2.0)
+
+                let A1 = Math.abs((p.x * (p2.y - p3.y) + p2.x * (p3.y - p.y) + p3.x * (p.y - p2.y)) / 2.0)
+
+                let A2 = Math.abs((p1.x * (p.y - p3.y) + p.x * (p3.y - p1.y) + p3.x * (p1.y - p.y)) / 2.0)
+
+                let A3 = Math.abs((p1.x * (p2.y - p.y) + p2.x * (p.y - p1.y) + p.x * (p1.y - p2.y)) / 2.0)
+
+                if (A == (A1 + A2 + A3)) {
+                    this.vy = 0
+                    this.vx = 0
+                    gravity = 0
+
+                    // point text
+
+                }
+            }
+        }
+    }
+
+    //     let A = (tArr[i].v0.x * (tArr[i].v1.y - tArr[i].v2.y) + tArr[i].v1.x * (tArr[i].v2.y - tArr[i].v0.y) + tArr[i].v2.x * (tArr[i].v0.y - tArr[i].v1.y)) / 2
+    // let A1 = (((this.x - this.diameter / 2) * (tArr[i].v1.y - tArr[i].v2.y)) + (tArr[i].v1.x * (tArr[i].v2.y - (this.y - this.diameter / 2))) + (tArr[i].v2.x * ((this.y - this.diameter / 2) - tArr[i].v1.y))) / 2
+    // let A2 = ((tArr[i].v0.x * ((this.y - this.diameter / 2) - tArr[i].v2.y)) + ((this.x - this.diameter / 2) * (tArr[i].v2.y - tArr[i].v0.y)) + (tArr[i].v2.x * (tArr[i].v0.y - (this.y - this.diameter / 2)))) / 2
+    // let A3 = ((tArr[i].v0.x * (tArr[i].v1.y - (this.y - this.diameter / 2))) + (tArr[i].v1.x * ((this.y - this.diameter / 2) - tArr[i].v0.y)) + ((this.x - this.diameter / 2) * (tArr[i].v0.y - tArr[i].v1.y))) / 2
 
     display() {
         fill(255, 204);
         ellipse(this.x, this.y, this.diameter, this.diameter);
     }
 }
+
+
+
+// function calculateTriangleArea() {
+//     let A = (tArr[i].v0.x * (tArr[i].v1.y - tArr[i].v2.y) + tArr[i].v1.x * (tArr[i].v2.y - tArr[i].v0.y) + tArr[i].v2.x * (tArr[i].v0.y - tArr[i].v1.y)) / 2
+//     let A1 = ((this.x - this.diameter / 2) * (tArr[i].v1.y - tArr[i].v2.y) + tArr[i].v1.x * (tArr[i].v2.y - (this.y - this.diameter / 2)) + tArr[i].v2.x * ((this.y - this.diameter / 2) - tArr[i].v1.y)) / 2
+//     let A2 = (tArr[i].v0.x * ((this.y - this.diameter / 2) - tArr[i].v2.y) + (this.x - this.diameter / 2) * (tArr[i].v2.y - tArr[i].v0.y) + tArr[i].v2.x * (tArr[i].v0.y - (this.y - this.diameter / 2))) / 2
+//     let A3 = (tArr[i].v0.x * (tArr[i].v1.y - (this.y - this.diameter / 2)) + tArr[i].v1.x * ((this.y - this.diameter / 2) - tArr[i].v0.y) + (this.x - this.diameter / 2) * (tArr[i].v0.y - tArr[i].v1.y)) / 2
+
+//     if (A === A1 + A2 + A3) {
+//         console.log('inside!')
+//     }
+// }
+
+
+// let A = area(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y)
+
+// let A1 = area(p.x, p.y, p2.x, p2.y, p3.x, p3.y)
+
+// let A2 = area(p1.x, p1.y, p.x, p.y, p3.x, p3.y)
+
+// let A3 = area(p1.x, p1.y, p2.x, p2.y, p.x, p.y)

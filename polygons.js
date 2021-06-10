@@ -24,7 +24,6 @@ function closeTriangle() {
     for (let i = 0; i < vArr.length; i++) {
         if (i > 2) {
             if (vArr[i].x > vArr[0].x - 7 && vArr[i].x < vArr[0].x + 10 && vArr[i].y > vArr[0].y - 7 && vArr[i].y < vArr[0].y + 7) {
-                console.log('it is a triangle!')
                 tArr.push({
                     v0: {
                         x: vArr[0].x,
@@ -118,22 +117,3 @@ function polygonBlueprint(x, y) {
         }
     }
 }
-
-// returns true if the line from (a,b)->(c,d) intersects with (p,q)->(r,s)
-
-// a = vArr[i].x
-// b = vArr[i].y
-// c = vArr[j].x
-// d = vArr[j].y
-// function intersects(a,b,c,d,p,q,r,s) {
-//     var det, gamma, lambda;
-//     det = (c - a) * (s - q) - (r - p) * (d - b);
-//     if (det === 0) {
-//       return false;
-//     } else {
-//       lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
-//       gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
-//       return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
-//     }
-//   };
-
