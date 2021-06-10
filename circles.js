@@ -1,4 +1,4 @@
-let numBalls = 50;
+let numBalls = 10;
 let spring = 0.05;
 let friction = -0.9;
 
@@ -74,18 +74,18 @@ function captureCircles() {
         let d3 = Math.floor(dist(tArr[tArr.length - 1].v2.x, tArr[tArr.length - 1].v2.y, tArr[tArr.length - 1].v0.x, tArr[tArr.length - 1].v0.y) / 20)
         // check if equilateral 
         if (d1 === d2 && d2 === d3) {
-            isCaptured(3)
+            isCaptured(3, 0, 0, 3)
             // check if isosceles
         } else if (d1 === d2 || d1 === d3 || d2 === d3) {
-            isCaptured(2)
+            isCaptured(2, 0, 2, 0)
             // else scalene
         } else {
-            isCaptured(1)
+            isCaptured(1, 1, 0, 0)
         }
     }
 }
 
-function isCaptured(multiplier) {
+function isCaptured(multiplier, bluePoints, greenPoints, yellowPoints) {
     if (tArr.length > 0) {
         for (i = 0; i < tArr.length; i++) {
             for (j = 0; j < balls.length; j++) {
@@ -111,6 +111,9 @@ function isCaptured(multiplier) {
                     } else {
                         capturedArr.push(balls[j])
                         total += multiplier
+                        blueTotal += bluePoints
+                        greenTotal += greenPoints
+                        yellowTotal += yellowPoints
                     }
                 }
             }

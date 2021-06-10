@@ -4,6 +4,9 @@ let capturedArr = []
 let scoreArr = []
 let count = 0
 let total = 0
+let blueTotal = 0
+let greenTotal = 0
+let yellowTotal = 0
 
 function pushVertex() {
     // add vertex coordinates to array for lines to work off of
@@ -62,14 +65,32 @@ function drawTriangle() {
         if (d1 === d2 && d2 === d3) {
             fill(color('hsla(60, 100%, 50%, 0.2)'))
             triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
+            push();
+            fill(0)
+            translate(((tArr[i].v0.x + tArr[i].v1.x + tArr[i].v2.x) / 3), ((tArr[i].v0.y + tArr[i].v1.y + tArr[i].v2.y) / 3))
+            textSize(20);
+            text(yellowTotal, -10, 0);
+            pop();
             // check if isosceles
         } else if (d1 === d2 || d1 === d3 || d2 === d3) {
             fill(color('hsla(160, 100%, 50%, 0.2)'))
             triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
+            push();
+            fill(0)
+            translate(((tArr[i].v0.x + tArr[i].v1.x + tArr[i].v2.x) / 3), ((tArr[i].v0.y + tArr[i].v1.y + tArr[i].v2.y) / 3))
+            textSize(20);
+            text(greenTotal, -10, 0);
+            pop();
             // else scalene
         } else {
             fill(color('hsla(200, 100%, 50%, 0.2)'))
             triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
+            push();
+            fill(0)
+            translate(((tArr[i].v0.x + tArr[i].v1.x + tArr[i].v2.x) / 3), ((tArr[i].v0.y + tArr[i].v1.y + tArr[i].v2.y) / 3))
+            textSize(20);
+            text(blueTotal, -10, 0);
+            pop();
         }
         // point text
         push();
