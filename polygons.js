@@ -1,7 +1,9 @@
 let vArr = []
 let tArr = []
+let capturedArr = []
+let scoreArr = []
 let count = 0
-let origin = 0
+let total = 0
 
 function pushVertex() {
     // add vertex coordinates to array for lines to work off of
@@ -40,12 +42,11 @@ function closeTriangle() {
                 })
                 vArr.length = 0
                 count = 0
-                console.log(vArr)
+
             }
             else {
                 vArr.length = 0
                 count = 0
-                console.log(vArr)
             }
         }
     }
@@ -70,6 +71,11 @@ function drawTriangle() {
             fill(color('hsla(200, 100%, 50%, 0.2)'))
             triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
         }
+        // point text
+        push();
+        fill(0)
+        text(total, 10, 30);
+        pop();
     }
 }
 

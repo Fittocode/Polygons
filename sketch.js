@@ -19,10 +19,12 @@ function draw() {
     background(255)
     p.drawBlueprint()
     drawTriangle()
+    captureCircles()
     balls.forEach(ball => {
         ball.collide();
         ball.move();
         ball.display();
-        ball.isInsideTriangle()
+        // ball.freezeInTriangle()
     });
 }
+
