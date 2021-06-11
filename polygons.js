@@ -45,7 +45,6 @@ function closeTriangle() {
                 })
                 vArr.length = 0
                 count = 0
-
             }
             else {
                 vArr.length = 0
@@ -92,11 +91,6 @@ function drawTriangle() {
             text(blueTotal, -10, 0);
             pop();
         }
-        // point text
-        push();
-        fill(0)
-        text(total, 10, 30);
-        pop();
     }
 }
 
@@ -143,4 +137,19 @@ function polygonBlueprint(x, y) {
             ]
         }
     }
+}
+
+function freezeBalls() {
+    for (i = 0; i < balls.length; i++) {
+        balls[i].vy = 0
+        balls[i].vx = 0
+    }
+    console.log('freeze')
+}
+
+function unFreezeBalls() {
+    for (i = 0; i < balls.length; i++) {
+        balls[i].vy += gravity
+    }
+    console.log('unfreeze')
 }

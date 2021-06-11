@@ -1,6 +1,7 @@
-let numBalls = 10;
+let numBalls = 20;
 let spring = 0.05;
-let friction = -0.9;
+let friction = -0.9
+let gravity = 0.02
 
 class Ball {
     constructor(xin, yin, din, idin, oin) {
@@ -11,9 +12,7 @@ class Ball {
         this.diameter = din;
         this.id = idin;
         this.others = oin;
-        this.total = 0
         this.frozenBalls = 0
-        this.gravity = 0.02
     }
 
     collide() {
@@ -41,7 +40,7 @@ class Ball {
     }
 
     move() {
-        this.vy += this.gravity;
+        this.vy += gravity;
         this.x += this.vx;
         this.y += this.vy;
         if (this.x + this.diameter / 2 > width) {
@@ -74,25 +73,24 @@ function captureCircles() {
         let d3 = Math.floor(dist(tArr[tArr.length - 1].v2.x, tArr[tArr.length - 1].v2.y, tArr[tArr.length - 1].v0.x, tArr[tArr.length - 1].v0.y) / 20)
         // check if equilateral 
         if (d1 === d2 && d2 === d3) {
-            isCaptured(3, 0, 0, 3)
+            isInsideTriangle(3, 0, 0, 3)
             // check if isosceles
         } else if (d1 === d2 || d1 === d3 || d2 === d3) {
-            isCaptured(2, 0, 2, 0)
+            isInsideTriangle(2, 0, 2, 0)
             // else scalene
         } else {
-            isCaptured(1, 1, 0, 0)
+            isInsideTriangle(1, 1, 0, 0)
         }
     }
 }
 
-function isCaptured(multiplier, bluePoints, greenPoints, yellowPoints) {
+function isInsideTriangle(multiplier, bluePoints, greenPoints, yellowPoints) {
     if (tArr.length > 0) {
         for (i = 0; i < tArr.length; i++) {
             for (j = 0; j < balls.length; j++) {
                 let p1 = tArr[i].v0
                 let p2 = tArr[i].v1
                 let p3 = tArr[i].v2
-                // let p = { x: balls[j].x, y: balls[j].y }
 
                 let A = Math.abs((p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y)) / 2.0)
 
@@ -105,18 +103,44 @@ function isCaptured(multiplier, bluePoints, greenPoints, yellowPoints) {
                 if (A == (A1 + A2 + A3)) {
                     balls[j].vy = 0
                     balls[j].vx = 0
-                    balls[j].gravity = 0
+                    gravity = 0
                     if (capturedArr.includes(balls[j])) {
                         continue
                     } else {
                         capturedArr.push(balls[j])
+                        console.log(capturedArr)
                         total += multiplier
                         blueTotal += bluePoints
                         greenTotal += greenPoints
                         yellowTotal += yellowPoints
                     }
                 }
+                // balls not captured will bounce off triangles
+                bounceOffTriangle(p1, p2, p3)
             }
         }
     }
 }
+
+function bounceOffTriangle(p1, p2, p3) {
+    let d1 = dist(p1.x, p1.y, p2.x, p2.y)
+    let d2 = dist(p2.x, p2.y, p3.x, p3.y)
+    let d3 = dist(p3.x, p3.y, p1.x, p1.y)
+    let db1 = dist(balls[j].x, balls[j].y, p1.x, p1.y)
+    let db2 = dist(balls[j].x, balls[j].y, p2.x, p2.y)
+    let db3 = dist(balls[j].x, balls[j].y, p3.x, p3.y)
+    let buffer = 0.1
+
+    if (db1 + db2 >= d1 - buffer && db1 + db2 <= d1 + buffer) {
+        balls[j].vy = -1
+        balls[j].vx = -2
+    }
+    if (db2 + db3 >= d2 - buffer && db2 + db3 <= d2 + buffer) {
+        balls[j].vy = 2
+    }
+    if (db3 + db1 >= d3 - buffer && db3 + db1 <= d3 + buffer) {
+        balls[j].vy = -2
+        balls[j].vx = 1
+    }
+}
+
