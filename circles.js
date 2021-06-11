@@ -1,7 +1,6 @@
 let numBalls = 20;
 let spring = 0.05;
 let friction = -0.9
-let gravity = 0.02
 
 class Ball {
     constructor(xin, yin, din, idin, oin) {
@@ -13,9 +12,9 @@ class Ball {
         this.id = idin;
         this.others = oin;
         this.frozenBalls = 0
+        this.gravity = 0.02
     }
-
-    collide() {
+    collideBall() {
         for (let i = this.id + 1; i < numBalls; i++) {
             // console.log(others[i]);
             let dx = this.others[i].x - this.x;
@@ -40,7 +39,7 @@ class Ball {
     }
 
     move() {
-        this.vy += gravity;
+        this.vy += this.gravity;
         this.x += this.vx;
         this.y += this.vy;
         if (this.x + this.diameter / 2 > width) {
@@ -103,16 +102,18 @@ function isInsideTriangle(multiplier, bluePoints, greenPoints, yellowPoints) {
                 if (A == (A1 + A2 + A3)) {
                     balls[j].vy = 0
                     balls[j].vx = 0
-                    gravity = 0
+                    balls[j].gravity = 0
                     if (capturedArr.includes(balls[j])) {
                         continue
                     } else {
                         capturedArr.push(balls[j])
                         console.log(capturedArr)
-                        total += multiplier
-                        blueTotal += bluePoints
-                        greenTotal += greenPoints
-                        yellowTotal += yellowPoints
+                        if (balls[j].vx === 0 && balls[j].vy === 0) {
+                            total += multiplier
+                            blueTotal += bluePoints
+                            greenTotal += greenPoints
+                            yellowTotal += yellowPoints
+                        }
                     }
                 }
                 // balls not captured will bounce off triangles
@@ -129,18 +130,99 @@ function bounceOffTriangle(p1, p2, p3) {
     let db1 = dist(balls[j].x, balls[j].y, p1.x, p1.y)
     let db2 = dist(balls[j].x, balls[j].y, p2.x, p2.y)
     let db3 = dist(balls[j].x, balls[j].y, p3.x, p3.y)
-    let buffer = 0.1
+    let buffer = 0.2
 
     if (db1 + db2 >= d1 - buffer && db1 + db2 <= d1 + buffer) {
-        balls[j].vy = -1
-        balls[j].vx = -2
+        if (p1.y < p3.y) {
+            if (p1.y > p2.y && p1.x < p2.x) {
+                balls[j].vy = -2;
+                balls[j].vx = -2;
+            } else if (p1.y > p2.y && p1.x > p2.x) {
+                balls[j].vy = -2;
+                balls[j].vx = 2;
+            } else if (p1.y < p2.y && p1.x < p2.x) {
+                balls[j].vy = -2;
+                balls[j].vx = 2;
+            } else if (p1.y < p2.y && p1.x > p2.x) {
+                balls[j].vy = -2;
+                balls[j].vx = -2;
+            }
+        } else if (p1.y > p3.y) {
+            if (p1.y > p2.y && p1.x < p2.x) {
+                balls[j].vy = 2;
+                balls[j].vx = 2;
+            } else if (p1.y > p2.y && p1.x > p2.x) {
+                balls[j].vy = -2;
+                balls[j].vx = 2;
+            } else if (p1.y < p2.y && p1.x < p2.x) {
+                balls[j].vy = 2;
+                balls[j].vx = -2;
+            } else if (p1.y < p2.y && p1.x > p2.x) {
+                balls[j].vy = -2;
+                balls[j].vx = -2;
+            }
+        }
     }
     if (db2 + db3 >= d2 - buffer && db2 + db3 <= d2 + buffer) {
-        balls[j].vy = 2
+        if (p1.y > p3.y) {
+            if (p2.y > p3.y && p2.x < p3.x) {
+                balls[j].vy = 2;
+                balls[j].vx = 2;
+            } else if (p2.y > p3.y && p2.x > p3.x) {
+                balls[j].vy = -2;
+                balls[j].vx = 2;
+            } else if (p2.y < p3.y && p2.x < p3.x) {
+                balls[j].vy = 2;
+                balls[j].vx = 2;
+            } else if (p2.y < p3.y && p2.x > p3.x) {
+                balls[j].vy = -2;
+                balls[j].vx = -2;
+            }
+        } else {
+            if (p2.y > p3.y && p2.x < p3.x) {
+                balls[j].vy = 2;
+                balls[j].vx = 2;
+            } else if (p2.y > p3.y && p2.x > p3.x) {
+                balls[j].vy = 2;
+                balls[j].vx = -2;
+            } else if (p2.y < p3.y && p2.x < p3.x) {
+                balls[j].vy = 2;
+                balls[j].vx = -2;
+            } else if (p2.y < p3.y && p2.x > p3.x) {
+                balls[j].vy = 2;
+                balls[j].vx = 2;
+            }
+        }
     }
     if (db3 + db1 >= d3 - buffer && db3 + db1 <= d3 + buffer) {
-        balls[j].vy = -2
-        balls[j].vx = 1
+        if (p1.y > p3.y) {
+            if (p3.y > p1.y && p3.x < p1.x) {
+                balls[j].vy = -2;
+                balls[j].vx = -2;
+            } else if (p3.y > p1.y && p3.x > p1.x) {
+                balls[j].vy = -2;
+                balls[j].vx = 2;
+            } else if (p3.y < p1.y && p3.x < p1.x) {
+                balls[j].vy = -2;
+                balls[j].vx = 2;
+            } else if (p3.y < p1.y && p3.x > p1.x) {
+                balls[j].vy = -2;
+                balls[j].vx = -2;
+            }
+        } else {
+            if (p3.y > p1.y && p3.x < p1.x) {
+                balls[j].vy = -2;
+                balls[j].vx = -2;
+            } else if (p3.y > p1.y && p3.x > p1.x) {
+                balls[j].vy = -2;
+                balls[j].vx = 2;
+            } else if (p3.y < p1.y && p3.x < p1.x) {
+                balls[j].vy = -2;
+                balls[j].vx = 2;
+            } else if (p3.y < p1.y && p3.x > p1.x) {
+                balls[j].vy = -2;
+                balls[j].vx = -2;
+            }
+        }
     }
 }
-
