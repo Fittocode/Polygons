@@ -1,4 +1,4 @@
-let numBalls = 20;
+let numBalls = 100;
 let spring = 0.05;
 let friction = -0.9
 

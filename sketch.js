@@ -6,9 +6,9 @@ function setup() {
     strokeWeight(1)
     for (let i = 0; i < numBalls; i++) {
         balls[i] = new Ball(
-            random(width),
-            random(height / 6),
-            20,
+            random(width / 2),
+            random(height / 2),
+            15,
             i,
             balls,
             tArr
