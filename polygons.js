@@ -62,34 +62,13 @@ function drawTriangle() {
         let d3 = Math.floor(dist(tArr[i].v2.x, tArr[i].v2.y, tArr[i].v0.x, tArr[i].v0.y) / 20)
         // check if equilateral 
         if (d1 === d2 && d2 === d3) {
-            fill(color('hsla(60, 100%, 50%, 0.2)'))
-            triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
-            push();
-            fill(0)
-            translate(((tArr[i].v0.x + tArr[i].v1.x + tArr[i].v2.x) / 3), ((tArr[i].v0.y + tArr[i].v1.y + tArr[i].v2.y) / 3))
-            textSize(20);
-            text(yellowTotal, -10, 0);
-            pop();
+            drawTriangleTotal(yellowTotal, tArr, color('hsla(60, 100%, 50%, 0.2)'))
             // check if isosceles
         } else if (d1 === d2 || d1 === d3 || d2 === d3) {
-            fill(color('hsla(160, 100%, 50%, 0.2)'))
-            triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
-            push();
-            fill(0)
-            translate(((tArr[i].v0.x + tArr[i].v1.x + tArr[i].v2.x) / 3), ((tArr[i].v0.y + tArr[i].v1.y + tArr[i].v2.y) / 3))
-            textSize(20);
-            text(greenTotal, -10, 0);
-            pop();
+            drawTriangleTotal(greenTotal, tArr, color('hsla(160, 100%, 50%, 0.2)'))
             // else scalene
         } else {
-            fill(color('hsla(200, 100%, 50%, 0.2)'))
-            triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
-            push();
-            fill(0)
-            translate(((tArr[i].v0.x + tArr[i].v1.x + tArr[i].v2.x) / 3), ((tArr[i].v0.y + tArr[i].v1.y + tArr[i].v2.y) / 3))
-            textSize(20);
-            text(blueTotal, -10, 0);
-            pop();
+            drawTriangleTotal(blueTotal, tArr, color('hsla(200, 100%, 50%, 0.2)'))
         }
     }
 }
@@ -149,7 +128,33 @@ function freezeBalls() {
 
 function unFreezeBalls() {
     for (i = 0; i < balls.length; i++) {
-        balls[i].vy += gravity
+        balls[i].vy = 0
+        balls[i].vx = 0
+        // setTimeout(() => {
+        //     break;
+        // }, 5000)
     }
     console.log('unfreeze')
+}
+
+function drawTriangleTotal(colorTotal, tArr, fillColor) {
+    fill(fillColor)
+    triangle(tArr[i].v0.x, tArr[i].v0.y, tArr[i].v1.x, tArr[i].v1.y, tArr[i].v2.x, tArr[i].v2.y)
+    push()
+    fill(0)
+    translate(((tArr[i].v0.x + tArr[i].v1.x + tArr[i].v2.x) / 3), ((tArr[i].v0.y + tArr[i].v1.y + tArr[i].v2.y) / 3))
+    textSize(20);
+    text(colorTotal, -10, 0);
+    pop();
+}
+
+function checkIfGolden(tArr) {
+    let d1 = Math.floor(dist(tArr[tArr.length - 1].v0.x, tArr[tArr.length - 1].v0.y, tArr[tArr.length - 1].v1.x, tArr[tArr.length - 1].v1.y) / 20)
+    let d2 = Math.floor(dist(tArr[tArr.length - 1].v1.x, tArr[tArr.length - 1].v1.y, tArr[tArr.length - 1].v2.x, tArr[tArr.length - 1].v2.y) / 20)
+    let d3 = Math.floor(dist(tArr[tArr.length - 1].v2.x, tArr[tArr.length - 1].v2.y, tArr[tArr.length - 1].v0.x, tArr[tArr.length - 1].v0.y) / 20)
+
+    if (d1 === d2 && d2 === d3) {
+        freezeBalls()
+    } else {
+    }
 }

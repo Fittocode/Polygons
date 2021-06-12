@@ -7,8 +7,8 @@ function setup() {
     for (let i = 0; i < numBalls; i++) {
         balls[i] = new Ball(
             random(width / 2),
-            random(height / 2),
-            15,
+            10,
+            10,
             i,
             balls,
             tArr

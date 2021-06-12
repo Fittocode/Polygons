@@ -1,4 +1,4 @@
-let numBalls = 100;
+let numBalls = 1;
 let spring = 0.05;
 let friction = -0.9
 
@@ -12,7 +12,7 @@ class Ball {
         this.id = idin;
         this.others = oin;
         this.frozenBalls = 0
-        this.gravity = 0.02
+        this.gravity = 0.005
     }
     collideBall() {
         for (let i = this.id + 1; i < numBalls; i++) {
@@ -42,6 +42,9 @@ class Ball {
         this.vy += this.gravity;
         this.x += this.vx;
         this.y += this.vy;
+        if (tArr.length > 0) {
+            checkIfGolden(tArr)
+        }
         if (this.x + this.diameter / 2 > width) {
             this.x = width - this.diameter / 2;
             this.vx *= friction;
@@ -56,6 +59,7 @@ class Ball {
             this.y = this.diameter / 2;
             this.vy *= friction;
         }
+
     }
 
     display() {
@@ -108,11 +112,23 @@ function isInsideTriangle(multiplier, bluePoints, greenPoints, yellowPoints) {
                     } else {
                         capturedArr.push(balls[j])
                         console.log(capturedArr)
-                        if (balls[j].vx === 0 && balls[j].vy === 0) {
-                            total += multiplier
-                            blueTotal += bluePoints
-                            greenTotal += greenPoints
-                            yellowTotal += yellowPoints
+                        total += multiplier
+                        blueTotal += bluePoints
+                        greenTotal += greenPoints
+                        yellowTotal += yellowPoints
+                        if (capturedArr.length === numBalls) {
+                            numBalls += 1
+                            for (let i = 0; i < numBalls; i++) {
+                                balls[i] = new Ball(
+                                    random(width / 2),
+                                    10,
+                                    10,
+                                    i,
+                                    balls,
+                                    tArr
+                                );
+                            }
+                            capturedArr.length = 0
                         }
                     }
                 }
@@ -189,8 +205,8 @@ function bounceOffTriangle(p1, p2, p3) {
                 balls[j].vy = 2;
                 balls[j].vx = -2;
             } else if (p2.y < p3.y && p2.x > p3.x) {
-                balls[j].vy = 2;
-                balls[j].vx = 2;
+                balls[j].vy = -2;
+                balls[j].vx = -2;
             }
         }
     }
@@ -211,8 +227,8 @@ function bounceOffTriangle(p1, p2, p3) {
             }
         } else {
             if (p3.y > p1.y && p3.x < p1.x) {
-                balls[j].vy = -2;
-                balls[j].vx = -2;
+                balls[j].vy = 2;
+                balls[j].vx = 2;
             } else if (p3.y > p1.y && p3.x > p1.x) {
                 balls[j].vy = -2;
                 balls[j].vx = 2;
