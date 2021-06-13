@@ -1,4 +1,4 @@
-let numBalls = 1;
+let numBalls = 10;
 let spring = 0.05;
 let friction = -0.9
 
@@ -11,6 +11,7 @@ class Ball {
         this.diameter = din;
         this.id = idin;
         this.others = oin;
+        this.health = 10
         this.frozenBalls = 0
         this.gravity = 0.005
     }
@@ -43,7 +44,7 @@ class Ball {
         this.x += this.vx;
         this.y += this.vy;
         if (tArr.length > 0) {
-            checkIfGolden(tArr)
+            checkTriangleStatus(tArr)
         }
         if (this.x + this.diameter / 2 > width) {
             this.x = width - this.diameter / 2;
@@ -55,6 +56,8 @@ class Ball {
         if (this.y + this.diameter / 2 > height) {
             this.y = height - this.diameter / 2;
             this.vy *= friction;
+            this.health -= 5
+            console.log(this.health)
         } else if (this.y - this.diameter / 2 < 0) {
             this.y = this.diameter / 2;
             this.vy *= friction;
@@ -64,6 +67,9 @@ class Ball {
 
     display() {
         fill(255, 205)
+        if (this.health === 5) {
+            fill(color('hsla(0, 100%, 50%, .4)'))
+        }
         ellipse(this.x, this.y, this.diameter, this.diameter);
     }
 }
@@ -148,97 +154,25 @@ function bounceOffTriangle(p1, p2, p3) {
     let db3 = dist(balls[j].x, balls[j].y, p3.x, p3.y)
     let buffer = 0.2
 
+    // let incidenceAngle = Math.atan2(balls[j].vy, balls[j].vx);
+    // let wallAngle1 = Math.atan2(p1.y - p2.y, p1.x - p2.x)
+    // let wallAngle2 = Math.atan2(p2.y - p1.y, p2.x - p1.x)
+    // let wallAngle3 = Math.atan2()
+    // var reflectionAngle1 = (2 * wallAngle1) - incidenceAngle;
+    // var reflectionAngle2 = wallAngle2 - incidenceAngle;
+
     if (db1 + db2 >= d1 - buffer && db1 + db2 <= d1 + buffer) {
-        if (p1.y < p3.y) {
-            if (p1.y > p2.y && p1.x < p2.x) {
-                balls[j].vy = -2;
-                balls[j].vx = -2;
-            } else if (p1.y > p2.y && p1.x > p2.x) {
-                balls[j].vy = -2;
-                balls[j].vx = 2;
-            } else if (p1.y < p2.y && p1.x < p2.x) {
-                balls[j].vy = -2;
-                balls[j].vx = 2;
-            } else if (p1.y < p2.y && p1.x > p2.x) {
-                balls[j].vy = -2;
-                balls[j].vx = -2;
-            }
-        } else if (p1.y > p3.y) {
-            if (p1.y > p2.y && p1.x < p2.x) {
-                balls[j].vy = 2;
-                balls[j].vx = 2;
-            } else if (p1.y > p2.y && p1.x > p2.x) {
-                balls[j].vy = -2;
-                balls[j].vx = 2;
-            } else if (p1.y < p2.y && p1.x < p2.x) {
-                balls[j].vy = 2;
-                balls[j].vx = -2;
-            } else if (p1.y < p2.y && p1.x > p2.x) {
-                balls[j].vy = -2;
-                balls[j].vx = -2;
-            }
-        }
+        balls[j].vx *= -1
+        balls[j].vx -= 1
+        balls[j].vy *= -1
     }
     if (db2 + db3 >= d2 - buffer && db2 + db3 <= d2 + buffer) {
-        if (p1.y > p3.y) {
-            if (p2.y > p3.y && p2.x < p3.x) {
-                balls[j].vy = 2;
-                balls[j].vx = 2;
-            } else if (p2.y > p3.y && p2.x > p3.x) {
-                balls[j].vy = -2;
-                balls[j].vx = 2;
-            } else if (p2.y < p3.y && p2.x < p3.x) {
-                balls[j].vy = 2;
-                balls[j].vx = 2;
-            } else if (p2.y < p3.y && p2.x > p3.x) {
-                balls[j].vy = -2;
-                balls[j].vx = -2;
-            }
-        } else {
-            if (p2.y > p3.y && p2.x < p3.x) {
-                balls[j].vy = 2;
-                balls[j].vx = 2;
-            } else if (p2.y > p3.y && p2.x > p3.x) {
-                balls[j].vy = 2;
-                balls[j].vx = -2;
-            } else if (p2.y < p3.y && p2.x < p3.x) {
-                balls[j].vy = 2;
-                balls[j].vx = -2;
-            } else if (p2.y < p3.y && p2.x > p3.x) {
-                balls[j].vy = -2;
-                balls[j].vx = -2;
-            }
-        }
+        balls[j].vx *= -1
+        balls[j].vy *= -1
     }
     if (db3 + db1 >= d3 - buffer && db3 + db1 <= d3 + buffer) {
-        if (p1.y > p3.y) {
-            if (p3.y > p1.y && p3.x < p1.x) {
-                balls[j].vy = -2;
-                balls[j].vx = -2;
-            } else if (p3.y > p1.y && p3.x > p1.x) {
-                balls[j].vy = -2;
-                balls[j].vx = 2;
-            } else if (p3.y < p1.y && p3.x < p1.x) {
-                balls[j].vy = -2;
-                balls[j].vx = 2;
-            } else if (p3.y < p1.y && p3.x > p1.x) {
-                balls[j].vy = -2;
-                balls[j].vx = -2;
-            }
-        } else {
-            if (p3.y > p1.y && p3.x < p1.x) {
-                balls[j].vy = 2;
-                balls[j].vx = 2;
-            } else if (p3.y > p1.y && p3.x > p1.x) {
-                balls[j].vy = -2;
-                balls[j].vx = 2;
-            } else if (p3.y < p1.y && p3.x < p1.x) {
-                balls[j].vy = -2;
-                balls[j].vx = 2;
-            } else if (p3.y < p1.y && p3.x > p1.x) {
-                balls[j].vy = -2;
-                balls[j].vx = -2;
-            }
-        }
+        balls[j].vx *= -1
+        balls[j].vx += 1
+        balls[j].vy *= -1
     }
 }

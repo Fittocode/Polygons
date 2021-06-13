@@ -148,13 +148,14 @@ function drawTriangleTotal(colorTotal, tArr, fillColor) {
     pop();
 }
 
-function checkIfGolden(tArr) {
+function checkTriangleStatus(tArr) {
     let d1 = Math.floor(dist(tArr[tArr.length - 1].v0.x, tArr[tArr.length - 1].v0.y, tArr[tArr.length - 1].v1.x, tArr[tArr.length - 1].v1.y) / 20)
     let d2 = Math.floor(dist(tArr[tArr.length - 1].v1.x, tArr[tArr.length - 1].v1.y, tArr[tArr.length - 1].v2.x, tArr[tArr.length - 1].v2.y) / 20)
     let d3 = Math.floor(dist(tArr[tArr.length - 1].v2.x, tArr[tArr.length - 1].v2.y, tArr[tArr.length - 1].v0.x, tArr[tArr.length - 1].v0.y) / 20)
 
     if (d1 === d2 && d2 === d3) {
         freezeBalls()
-    } else {
+    } else if (d1 === d2 || d1 === d3 || d2 === d3) {
+
     }
 }
