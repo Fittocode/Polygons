@@ -42,7 +42,7 @@ class Ball {
 
     display() {
         // fill and draw ellipse(ball) at (posx,posy)
-        fill(0, 0, 255)
+        fill('hsla(270, 100%, 50%, 0.2)')
         ellipse(this.posx, this.posy, 2 * this.radius, 2 * this.radius);
     }
     move() {
@@ -181,8 +181,8 @@ class Ball {
                         }
                     } else if (p1.y > p3.y && p1.x < p3.x) {
                         if (p1.y > p2.y && p1.x < p2.x) {
-                            // good
-                            dy_ = this.radius
+                            // good v2
+                            dy_ = -this.radius
                         } else if (p1.y > p2.y && p1.x > p2.x) {
                             // good
                             dy_ = -this.radius
@@ -267,8 +267,8 @@ class Ball {
                     vely_ = -1 * vely_;
                     if (p2.y < p1.y && p2.x > p1.x) {
                         if (p2.y > p3.y && p2.x < p3.x) {
-                            // good
-                            dy_ = this.radius
+                            // good v2
+                            dy_ = -this.radius
                         } else if (p2.y > p3.y && p2.x > p3.x) {
                             // good
                             dy_ = this.radius
@@ -276,8 +276,8 @@ class Ball {
                             // good 
                             dy_ = -this.radius
                         } else if (p2.y < p3.y && p2.x > p3.x) {
-                            // good 
-                            dy_ = -this.radius
+                            // good v2
+                            dy_ = this.radius
                         }
                     } else if (p2.y < p1.y && p2.x < p1.x) {
                         if (p2.y > p3.y && p2.x < p3.x) {
@@ -287,8 +287,7 @@ class Ball {
                             // good
                             dy_ = -this.radius
                         } else if (p2.y < p3.y && p2.x < p3.x) {
-                            // good
-                            dy_ = -this.radius
+                            // do nothing
                         } else if (p2.y < p3.y && p2.x > p3.x) {
                             // good
                             dy_ = this.radius
@@ -389,8 +388,8 @@ class Ball {
                             // good 
                             dy_ = -this.radius
                         } else if (p3.y < p1.y && p3.x > p1.x) {
-                            // good 
-                            dy_ = this.radius
+                            // good v2
+                            // do nothing
                         }
                     } else if (p3.y < p2.y && p3.x < p2.x) {
                         if (p3.y > p1.y && p3.x < p1.x) {
@@ -408,8 +407,8 @@ class Ball {
                         }
                     } else if (p3.y > p2.y && p3.x < p2.x) {
                         if (p3.y > p1.y && p3.x < p1.x) {
-                            // good
-                            dy_ = -this.radius
+                            // good v2
+                            dy_ = this.radius
                         } else if (p3.y > p1.y && p3.x > p1.x) {
                             // good
                             dy_ = -this.radius
@@ -422,14 +421,11 @@ class Ball {
                         }
                     } else if (p3.y > p2.y && p3.x > p2.x) {
                         if (p3.y > p1.y && p3.x < p1.x) {
-
                             dy_ = this.radius
                         } else if (p3.y > p1.y && p3.x > p1.x) {
-                            // good
-                            dy_ = this.radius
+                            // do nothing
                         } else if (p3.y < p1.y && p3.x < p1.x) {
-
-                            dy_ = -this.radius
+                            // do nothing 
                         } else if (p3.y < p1.y && p3.x > p1.x) {
 
                             dy_ = -this.radius

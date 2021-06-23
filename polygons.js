@@ -77,13 +77,39 @@ function polygonBlueprint(x, y) {
     // vertex coordinates pushed to arr in mouseClicked()
     this.x = x
     this.y = y
-
     this.drawBlueprint = function () {
         for (let i = 0; i < vArr.length; i++) {
             // draw vertex rect
             if (i !== 3) {
                 fill(0)
                 rect(vArr[i].x, vArr[i].y, 7, 7)
+                if (vArr.length > 0) {
+                    push();
+                    fill(0)
+                    translate(vArr[0].x, vArr[0].y, 10)
+                    textSize(15)
+                    text('P1', 15, 10);
+                    text(text('X: ' + vArr[0].x, 50, 10), text('Y: ' + vArr[0].y, 110, 10))
+                    pop();
+                }
+                if (vArr.length > 1) {
+                    push();
+                    fill(0)
+                    translate(vArr[1].x, vArr[1].y, 10)
+                    textSize(15)
+                    text('P2', 15, 10);
+                    text(text('X: ' + vArr[1].x, 50, 10), text('Y: ' + vArr[1].y, 110, 10))
+                    pop();
+                }
+                if (vArr.length > 2) {
+                    push();
+                    fill(0)
+                    translate(vArr[2].x, vArr[2].y, 10)
+                    textSize(15)
+                    text('P3', 15, 10);
+                    text(text('X: ' + vArr[2].x, 50, 10), text('Y: ' + vArr[2].y, 110, 10))
+                    pop();
+                }
             }
 
             // draw guiding line
@@ -119,17 +145,18 @@ function polygonBlueprint(x, y) {
 }
 
 function freezeBalls() {
+    console.log(balls.length)
     for (i = 0; i < balls.length; i++) {
-        balls[i].vy = 0
-        balls[i].vx = 0
+        balls[i].vely = 0
+        balls[i].velx = 0
     }
     console.log('freeze')
 }
 
 function unFreezeBalls() {
     for (i = 0; i < balls.length; i++) {
-        balls[i].vy = 0
-        balls[i].vx = 0
+        balls[i].vely = 0
+        balls[i].velx = 0
         // setTimeout(() => {
         //     break;
         // }, 5000)
@@ -146,6 +173,34 @@ function drawTriangleTotal(colorTotal, tArr, fillColor) {
     textSize(20);
     text(colorTotal, -10, 0);
     pop();
+
+    // p1 
+    push();
+    fill(0)
+    translate(tArr[i].v0.x, tArr[i].v0.y, 0)
+    textSize(15)
+    text('P1', 15, 10);
+    text(text('X: ' + tArr[i].v0.x, 50, 10), text('Y: ' + tArr[i].v0.y, 110, 10))
+    pop();
+
+    // p2
+    push();
+    fill(0)
+    translate(tArr[i].v1.x, tArr[i].v1.y, 0)
+    textSize(15)
+    text('P2', 15, 10);
+    text(text('X: ' + tArr[i].v1.x, 50, 10), text('Y: ' + tArr[i].v1.y, 110, 10))
+    pop();
+
+    // p3
+    push();
+    fill(0)
+    translate(tArr[i].v2.x, tArr[i].v2.y, 0)
+    textSize(15)
+    text('P3', 15, 10);
+    text(text('X: ' + tArr[i].v2.x, 50, 10), text('Y: ' + tArr[i].v2.y, 110, 10))
+    pop();
+
 }
 
 function checkTriangleStatus(tArr) {

@@ -43,8 +43,7 @@ function draw() {
         ball.checkTriangleSide3()
         ball.display();
     })
-
-    fill(155, 300, 200);
+    fill('hsla(0, 100%, 50%, 0.2)');
     beginShape()
     for (let i = 0; i < segments; i++) {
         vertex(ground[i].x1, ground[i].y1)
