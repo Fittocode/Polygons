@@ -63,6 +63,11 @@ class Ball {
             this.posx = this.radius
             this.velx *= friction
         }
+
+        if (this.posy < this.radius) {
+            this.posy = this.radius
+            this.vely *= friction
+        }
     }
     checkInclineCollision() {
         for (i = 0; i < ground.length; i++) {
@@ -144,71 +149,32 @@ class Ball {
                 let p3 = tArr[i].v2
 
                 let d1 = dist(p1.x, p1.y, p2.x, p2.y)
+                let d2 = dist(p2.x, p2.y, p3.x, p3.y)
+                let d3 = dist(p3.x, p3.y, p1.x, p1.y)
+
                 let db1 = dist(this.posx, this.posy, p1.x, p1.y)
                 let db2 = dist(this.posx, this.posy, p2.x, p2.y)
+                let db3 = dist(this.posx, this.posy, p3.x, p3.y)
                 let buffer = .5
 
-                // side 1: p1 - p2
+                // side 1
                 if (db1 + db2 >= d1 - buffer && db1 + db2 <= d1 + buffer) {
                     vely_ = -1 * vely_;
-                    if (p1.y < p3.y && p1.x > p3.x) {
-                        if (p1.y > p2.y && p1.x < p2.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p1.y > p2.y && p1.x > p2.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p1.y < p2.y && p1.x < p2.x) {
-                            // good 
-                            dy_ = -this.radius
-                        } else if (p1.y < p2.y && p1.x > p2.x) {
-                            // good 
-                            dy_ = -this.radius
-                        }
-                    } else if (p1.y < p3.y && p1.x < p3.x) {
-                        if (p1.y > p2.y && p1.x < p2.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p1.y > p2.y && p1.x > p2.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p1.y < p2.y && p1.x < p2.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p1.y < p2.y && p1.x > p2.x) {
-                            // good
-                            dy_ = this.radius
-                        }
-                    } else if (p1.y > p3.y && p1.x < p3.x) {
-                        if (p1.y > p2.y && p1.x < p2.x) {
-                            // good v2
-                            dy_ = -this.radius
-                        } else if (p1.y > p2.y && p1.x > p2.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p1.y < p2.y && p1.x < p2.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p1.y < p2.y && p1.x > p2.x) {
-                            // good
-                            dy_ = this.radius
-                        }
-                    } else if (p1.y > p3.y && p1.x > p3.x) {
-                        if (p1.y > p2.y && p1.x < p2.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p1.y > p2.y && p1.x > p2.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p1.y < p2.y && p1.x < p2.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p1.y < p2.y && p1.x > p2.x) {
-                            // good
-                            dy_ = -this.radius
-                        }
-                    }
+                    this.vely *= spring
+                    this.velx *= spring
                 }
+                // // side 2
+                // if (db2 + db3 >= d2 - buffer && db2 + db3 <= d2 + buffer) {
+                //     vely_ = -1 * vely_;
+                //     this.vely *= spring
+                //     this.velx *= spring
+                // }
+                // // side 3
+                // if (db3 + db1 >= d1 - buffer && db1 + db2 <= d1 + buffer) {
+                //     vely_ = -1 * vely_;
+                //     this.vely *= spring
+                //     this.velx *= spring
+                // }
 
                 // rotate everything back to restore the original 
                 // coordinate axis.
@@ -265,62 +231,8 @@ class Ball {
                 // side 1: p1 - p2
                 if (db1 + db2 >= d1 - buffer && db1 + db2 <= d1 + buffer) {
                     vely_ = -1 * vely_;
-                    if (p2.y < p1.y && p2.x > p1.x) {
-                        if (p2.y > p3.y && p2.x < p3.x) {
-                            // good v2
-                            dy_ = -this.radius
-                        } else if (p2.y > p3.y && p2.x > p3.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p2.y < p3.y && p2.x < p3.x) {
-                            // good 
-                            dy_ = -this.radius
-                        } else if (p2.y < p3.y && p2.x > p3.x) {
-                            // good v2
-                            dy_ = this.radius
-                        }
-                    } else if (p2.y < p1.y && p2.x < p1.x) {
-                        if (p2.y > p3.y && p2.x < p3.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p2.y > p3.y && p2.x > p3.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p2.y < p3.y && p2.x < p3.x) {
-                            // do nothing
-                        } else if (p2.y < p3.y && p2.x > p3.x) {
-                            // good
-                            dy_ = this.radius
-                        }
-                    } else if (p2.y > p1.y && p2.x < p1.x) {
-                        if (p2.y > p3.y && p2.x < p3.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p2.y > p3.y && p2.x > p3.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p2.y < p3.y && p2.x < p3.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p2.y < p3.y && p2.x > p3.x) {
-                            // good
-                            dy_ = this.radius
-                        }
-                    } else if (p2.y > p1.y && p2.x > p1.x) {
-                        if (p2.y > p3.y && p2.x < p3.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p2.y > p3.y && p2.x > p3.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p2.y < p3.y && p2.x < p3.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p2.y < p3.y && p2.x > p3.x) {
-                            // good
-                            dy_ = -this.radius
-                        }
-                    }
+                    this.vely *= spring
+                    this.velx *= spring
                 }
 
                 // rotate everything back to restore the original 
@@ -370,6 +282,7 @@ class Ball {
                 let p3 = tArr[i].v2
 
                 let d1 = dist(p3.x, p3.y, p1.x, p1.y)
+
                 let db1 = dist(this.posx, this.posy, p3.x, p3.y)
                 let db2 = dist(this.posx, this.posy, p1.x, p1.y)
                 let buffer = .5
@@ -377,60 +290,8 @@ class Ball {
                 // side 1: p1 - p2
                 if (db1 + db2 >= d1 - buffer && db1 + db2 <= d1 + buffer) {
                     vely_ = -1 * vely_;
-                    if (p3.y < p2.y && p3.x > p2.x) {
-                        if (p3.y > p1.y && p3.x < p1.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p3.y > p1.y && p3.x > p1.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p3.y < p1.y && p3.x < p1.x) {
-                            // good 
-                            dy_ = -this.radius
-                        } else if (p3.y < p1.y && p3.x > p1.x) {
-                            // good v2
-                            // do nothing
-                        }
-                    } else if (p3.y < p2.y && p3.x < p2.x) {
-                        if (p3.y > p1.y && p3.x < p1.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p3.y > p1.y && p3.x > p1.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p3.y < p1.y && p3.x < p1.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p3.y < p1.y && p3.x > p1.x) {
-                            // good
-                            dy_ = this.radius
-                        }
-                    } else if (p3.y > p2.y && p3.x < p2.x) {
-                        if (p3.y > p1.y && p3.x < p1.x) {
-                            // good v2
-                            dy_ = this.radius
-                        } else if (p3.y > p1.y && p3.x > p1.x) {
-                            // good
-                            dy_ = -this.radius
-                        } else if (p3.y < p1.y && p3.x < p1.x) {
-                            // good
-                            dy_ = this.radius
-                        } else if (p3.y < p1.y && p3.x > p1.x) {
-                            // good
-                            dy_ = this.radius
-                        }
-                    } else if (p3.y > p2.y && p3.x > p2.x) {
-                        if (p3.y > p1.y && p3.x < p1.x) {
-                            dy_ = this.radius
-                        } else if (p3.y > p1.y && p3.x > p1.x) {
-                            // do nothing
-                        } else if (p3.y < p1.y && p3.x < p1.x) {
-                            // do nothing 
-                        } else if (p3.y < p1.y && p3.x > p1.x) {
-
-                            dy_ = -this.radius
-                        }
-                    }
+                    this.vely *= spring
+                    this.velx *= spring
                 }
 
                 // rotate everything back to restore the original 

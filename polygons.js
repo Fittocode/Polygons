@@ -144,25 +144,20 @@ function polygonBlueprint(x, y) {
     }
 }
 
-function freezeBalls() {
-    console.log(balls.length)
-    for (i = 0; i < balls.length; i++) {
-        balls[i].vely = 0
-        balls[i].velx = 0
-    }
-    console.log('freeze')
-}
+// function freezeBalls() {
+//     for (i = 0; i < balls.length; i++) {
+//         balls[i].vely = 0
+//         balls[i].velx = 0
+//     }
+//     console.log('freeze')
+// }
 
-function unFreezeBalls() {
-    for (i = 0; i < balls.length; i++) {
-        balls[i].vely = 0
-        balls[i].velx = 0
-        // setTimeout(() => {
-        //     break;
-        // }, 5000)
-    }
-    console.log('unfreeze')
-}
+// function unFreezeBalls() {
+//     for (i = 0; i < balls.length; i++) {
+//         balls[i].vely = unfreeze
+//     }
+//     console.log('unfreeze')
+// }
 
 function drawTriangleTotal(colorTotal, tArr, fillColor) {
     fill(fillColor)
@@ -203,15 +198,43 @@ function drawTriangleTotal(colorTotal, tArr, fillColor) {
 
 }
 
-function checkTriangleStatus(tArr) {
-    let d1 = Math.floor(dist(tArr[tArr.length - 1].v0.x, tArr[tArr.length - 1].v0.y, tArr[tArr.length - 1].v1.x, tArr[tArr.length - 1].v1.y) / 20)
-    let d2 = Math.floor(dist(tArr[tArr.length - 1].v1.x, tArr[tArr.length - 1].v1.y, tArr[tArr.length - 1].v2.x, tArr[tArr.length - 1].v2.y) / 20)
-    let d3 = Math.floor(dist(tArr[tArr.length - 1].v2.x, tArr[tArr.length - 1].v2.y, tArr[tArr.length - 1].v0.x, tArr[tArr.length - 1].v0.y) / 20)
+// function checkTriangleStatus(tArr) {
+//     let d1 = Math.floor(dist(tArr[tArr.length - 1].v0.x, tArr[tArr.length - 1].v0.y, tArr[tArr.length - 1].v1.x, tArr[tArr.length - 1].v1.y) / 20)
+//     let d2 = Math.floor(dist(tArr[tArr.length - 1].v1.x, tArr[tArr.length - 1].v1.y, tArr[tArr.length - 1].v2.x, tArr[tArr.length - 1].v2.y) / 20)
+//     let d3 = Math.floor(dist(tArr[tArr.length - 1].v2.x, tArr[tArr.length - 1].v2.y, tArr[tArr.length - 1].v0.x, tArr[tArr.length - 1].v0.y) / 20)
 
-    if (d1 === d2 && d2 === d3) {
-        freezeBalls()
-    } else if (d1 === d2 || d1 === d3 || d2 === d3) {
+//     if (d1 === d2 && d2 === d3) {
+//         freezeBalls()
+//     } else if (d1 === d2 || d1 === d3 || d2 === d3) {
 
-    }
-}
+//     }
+// }
 
+// let p1 = tArr[i].v0;
+// let p2 = tArr[i].v1
+// let p3 = tArr[i].v2
+
+// let d1 = dist(p1.x, p1.y, p2.x, p2.y)
+// let d2 = dist(p2.x, p2.y, p3.x, p3.y)
+// let d3 = dist(p3.x, p3.y, p1.x, p1.y)
+
+// let db1 = dist(this.posx, this.posy, p1.x, p1.y)
+// let db2 = dist(this.posx, this.posy, p2.x, p2.y)
+// let db3 = dist(this.posx, this.posy, p3.x, p3.y)
+// let buffer = .5
+
+// // side 1
+// if (db1 + db2 >= d1 - buffer && db1 + db2 <= d1 + buffer) {
+//     vely_ = -1 * vely_;
+//     this.vely *= spring
+//     this.velx *= spring
+// } else if (db2 + db3 >= d2 - buffer && db2 + db3 <= d2 + buffer) {
+//     vely_ = -1 * vely_;
+//     this.vely *= spring
+//     this.velx *= spring
+// }
+// if (db3 + db1 >= d3 - buffer && db3 + db1 <= d3 + buffer) {
+//     vely_ = -1 * vely_;
+//     this.vely *= spring
+//     this.velx *= spring
+// }
